@@ -64,6 +64,33 @@ public class main {
 		
 	}
 
+	public static void APIDownload(String key, String coordinates, String size) {
+		String imgURL = "https://maps.googleapis.com/maps/api/streetview?size=" + size + "&location=" + coordinates + "&fov=80&heading=70&pitch=0&key=" + key;
+		System.out.println("Getting image...");
+		
+		dynamic_scraping API = new dynamic_scraping(imgURL);
+		API.getImg();
+		
+		
+		// ##Solve file extension issue 
+//		try {
+//		URL url = new URL(imgURL); // setting up the url 
+//		HttpURLConnection http = (HttpURLConnection)url.openConnection();
+//		BufferedInputStream in = new BufferedInputStream(http.getInputStream());
+//		File out = new File(folderPath + "\\" + "experimentAPIkey.json"); 
+//		
+//		FileOutputStream fos = new FileOutputStream(out);
+//		BufferedOutputStream bout = new BufferedOutputStream(fos, 1024);
+//		bout.close();
+//		in.close();
+//		System.out.println("Download complete!");
+//		}
+//		catch(Exception e) {
+//			System.out.println("Error");
+//		}
+		
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		Scanner kbd = new Scanner(System.in);  
 		int task; 
@@ -97,14 +124,14 @@ public class main {
 			coordinates = kbd.nextLine();
 			System.out.print("Enter picture size: ");
 			size = kbd.nextLine();
-//			APIDownload(key, coordinates, size); // Does not support download yet ##issue with the file extension	
+			APIDownload(key, coordinates, size); // Does not support download yet ##issue with the file extension	
 		}
 		else if(task==3) {
 			System.out.print("Please write the document path of your CSV file: ");
 			filePath = kbd.nextLine();
 			filePath = kbd.nextLine();
-//			dynamic_scraping Web = new dynamic_scraping(filePath);
-//			Web.scrapeImg();
+			dynamic_scraping Web = new dynamic_scraping(filePath);
+			Web.scrapeImg();
 		}
 		else {
 			System.out.println("Task is not supported");
