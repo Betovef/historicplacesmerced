@@ -11,59 +11,6 @@ import java.util.Scanner;
 
 public class main {
 	
-	public static void csvDownload(String filePath, String folderPath) throws FileNotFoundException {
-		Scanner scanIn = null;
-		scanIn = new Scanner(new BufferedReader(new FileReader(filePath)));
-		int i = 0;
-		String fileName = null, imgURL = null, row = null;
-		double fileSize;
-
-		
-		while(scanIn.hasNextLine()) {
-			try {		
-			row = scanIn.nextLine(); //reading every line in the csv file
-			String[] data = row.split(","); //split the names of the files and the url
-			if (data.length == 2 && (data[1] != "" || data[0] != "")) {		
-			fileName = data[0]; // save names and url into variables 
-			imgURL = data[1];
-			
-			URL url = new URL(imgURL); // setting up the url 
-			HttpURLConnection http = (HttpURLConnection)url.openConnection();
-			fileSize = (double)http.getContentLengthLong();
-			BufferedInputStream in = new BufferedInputStream(http.getInputStream());
-			
-			File out = new File(folderPath + "\\" + fileName + ".jpg"); //writing the names and the path o
-			FileOutputStream fos = new FileOutputStream(out);
-			BufferedOutputStream bout = new BufferedOutputStream(fos, 1024);
-			
-			byte[] buffer = new byte[1024]; //writing code to visualize progress (per url)
-			double downloaded = 0.00;
-			int read = 0;
-			double percentDownlaoded = 0.00;
-			while((read = in.read(buffer, 0, 1024)) >= 0) {
-				bout.write(buffer, 0, read);
-				downloaded += read;
-				percentDownlaoded = (downloaded*100)/fileSize;
-				String percent = String.format("%4f",  percentDownlaoded);
-				System.out.println("Downloaded " + percent + "% of a file.");
-			}
-			bout.close();
-			in.close();
-			System.out.println("Download " + i + " complete!");
-			}
-			else {
-				continue;
-			}
-			}
-			
-			catch(Exception e) {
-				System.out.println("Error on iteration " + i);
-			}
-			i++;
-		}
-		
-	}
-
 	public static void APIDownload(String key, String coordinates, String size) {
 		String imgURL = "https://maps.googleapis.com/maps/api/streetview?size=" + size + "&location=" + coordinates + "&fov=80&heading=70&pitch=0&key=" + key;
 		System.out.println("Getting image...");
@@ -114,7 +61,8 @@ public class main {
 			System.out.println("Folder Path: " + folderPath);
 
 			System.out.println("Downloading...");
-			csvDownload(filePath, folderPath);
+			CSVdownloader images = new CSVdownloader(filePath, folderPath);
+			
 		}
 		else if(task ==2) {
 			System.out.print("Please enter Google API key: ");
