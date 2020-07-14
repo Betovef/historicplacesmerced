@@ -1,3 +1,9 @@
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -51,8 +57,42 @@ public class dynamic_scraping {
 		WebDriver driver = new ChromeDriver();
 		driver.get(filePath);
 	}
+	public static void  saveImg(WebDriver driver, Actions act,  WebElement elem, String name) throws IOException, InterruptedException, AWTException {
+
+		//Formating name
+		String splitName[] = name.split(" ");
+		String newName = "";
+		for(int i = 0; i < splitName.length-1; i++) {
+			if(i == splitName.length-2) {
+				newName += splitName[i];
+			}
+			else {
+				newName += splitName[i] + "_";
+			}
+		}
+		//Setting up file screenshot 
+		act.contextClick(elem).build().perform();
+		act.sendKeys(Keys.CONTROL + "v").build().perform();
+
+		Thread.sleep(3000);
+		StringSelection stringSelection = new StringSelection(name);
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(stringSelection, stringSelection);
+
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_ENTER); 
+		// ISSUE: Need to figure out how to name files
+//		robot.keyPress(KeyEvent.VK_DOWN);
+//		robot.keyPress(KeyEvent.VK_DOWN);
+//		robot.keyPress(KeyEvent.VK_ENTER);
+//		robot.keyPress(KeyEvent.VK_CONTROL);
+//		robot.keyPress(KeyEvent.VK_V);
+//		robot.keyRelease(KeyEvent.VK_V);
+//		robot.keyRelease(KeyEvent.VK_CONTROL);
+//		robot.keyPress(KeyEvent.VK_ENTER);  
+	}
 	public static void  screenshotImg(WebDriver driver, WebElement elem, String name, String date) throws IOException {
-		
+
 		//Formating name
 		String splitName[] = name.split(" ");
 		String newName = "";
@@ -61,7 +101,7 @@ public class dynamic_scraping {
 		}
 		date = date.replaceAll("Image capture: ", "");
 		date = date.replaceAll(" ", "");
-		
+
 		//Setting up file screenshot 
 		File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 		BufferedImage  fullImg = ImageIO.read(screenshot);
@@ -73,23 +113,69 @@ public class dynamic_scraping {
 		BufferedImage eleScreenshot= fullImg.getSubimage(point.getX(), point.getY(),
 				eleWidth, eleHeight);
 		ImageIO.write(eleScreenshot, "png", screenshot);
-		
+
 		//Writing image in folder
 		File screenshotLocation = new File(folderPath + "\\" + newName + date + ".jpg");
 		FileUtils.copyFile(screenshot, screenshotLocation);
+	}
+
+	public static void scrapeTruliaImg() {
+		Scanner scanIn = null;
+		String InputLine = "";
+		try {
+			System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chromedriver.exe"); 
+			WebDriver driver = new ChromeDriver();
+			Actions act = new Actions(driver);
+			WebElement elem = null;
+
+			scanIn = new Scanner(new BufferedReader(new FileReader(filePath)));
+			int i = 0;
+
+			while(scanIn.hasNextLine()) {
+				InputLine = scanIn.nextLine();
+				try {
+					driver.get("https://www.trulia.com/");
+					Thread.sleep(1000);
+					elem = driver.findElement(By.id("banner-search"));
+					elem.sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE)); // delete id input 
+					elem.sendKeys(InputLine);// input text
+					Thread.sleep(500);
+					elem.sendKeys(Keys.ENTER); // search
+					Thread.sleep(2000);	
+					Boolean isPresent = driver.findElements(By.xpath("/html/body/div[2]/section/div[2]/div[1]/div[1]/div[1]/div[1]/h2")).size() > 0;
+					if(isPresent == true) {
+						System.out.println("");
+						Thread.sleep(1000);
+						continue;
+					}
+					else {
+					elem = driver.findElement(By.xpath("/html/body/div[2]/section/div[2]/div[1]/div/div/div[1]/div[1]/div")); // finds image to click on
+					Thread.sleep(2000);	
+					act.moveToElement(elem).click().build().perform(); // clicks on image 
+					elem = driver.findElement(By.tagName("img")); // identifies img 
+					System.out.println(elem.getAttribute("src"));
+					Thread.sleep(2000);	
+					//					saveImg(driver, act, elem, InputLine); // screenshot 
+					}
+
+				} catch(Exception e) {
+					System.out.println("");
+				}
+			}
+		} catch(Exception e) {
+		}
 	}
 
 
 	public static void scrapeGooglemapsImg() {
 		Scanner scanIn = null;
 		String InputLine = "", oldDate, newDate;
-		
+
 		try {
 			System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chromedriver.exe"); 
 			WebDriver driver = new ChromeDriver();
 			Actions act = new Actions(driver);
 			WebElement elem = null;
-			Point point;
 
 			scanIn = new Scanner(new BufferedReader(new FileReader(filePath)));
 			int i = 0;
@@ -111,14 +197,14 @@ public class dynamic_scraping {
 					elem = driver.findElement(By.xpath("/html/body/jsl/div[3]/div[9]/div[8]/div/div[3]/button")); // identifies extension arrow
 					act.moveToElement(elem).click().build().perform(); // clicks on extension arrows
 					//Full Google Street View
-					
+
 					//Capture newest picture
 					elem = driver.findElement(By.xpath("/html/body/jsl/div[3]/div[9]/div[25]/div/div[1]/div/div/span[7]/span/span/span"));
 					newDate = elem.getText(); // date data 
 					elem = driver.findElement(By.xpath("/html/body/jsl/div[3]/div[9]/div[1]/div[3]/canvas")); // identifies canvas 
 					screenshotImg(driver, elem, InputLine, newDate); // screenshot 
 					Thread.sleep(2000);
-					
+
 					//Capture oldest picture
 					elem = driver.findElement(By.xpath("/html/body/jsl/div[3]/div[9]/div[11]/div[1]/div[2]/div[4]/div/div")); // identifies time machine button
 					act.moveToElement(elem).click().build().perform(); // clicks time machine button
@@ -133,7 +219,7 @@ public class dynamic_scraping {
 					oldDate = elem.getText();
 					elem = driver.findElement(By.xpath("/html/body/jsl/div[3]/div[9]/div[1]/div[3]/canvas")); // identifies canvas 
 					screenshotImg(driver, elem, InputLine, oldDate); // screenshot 
-//					Thread.sleep(2000);
+					//					Thread.sleep(2000);
 					//Print data
 					System.out.println(InputLine + ", " + newDate + ", " + oldDate);
 				} catch (Exception e) {
