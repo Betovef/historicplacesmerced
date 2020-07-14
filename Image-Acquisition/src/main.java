@@ -76,7 +76,7 @@ public class main {
 			APIDownload(key, coordinates, size); // Does not support download yet ##issue with the file extension	
 		}
 		else if(task==3) {
-			System.out.println("Please select website: \n1. redfin.com \n2. google.com/maps");
+			System.out.println("Please select website: \n1. redfin.com \n2. google.com/maps \n3. trulia.com");
 			task = kbd.nextInt();
 			if(task ==1) {
 				System.out.print("Please write the document path of your CSV file: ");
@@ -94,7 +94,15 @@ public class main {
 				dynamic_scraping Web = new dynamic_scraping(filePath, folderPath, task);
 				Web.scrapeGooglemapsImg();
 			}
-
+			else if(task ==3) {
+				System.out.print("Please write the document path of your CSV file: ");
+				filePath = kbd.nextLine();
+				filePath = kbd.nextLine();
+				System.out.print("Please write the folder path where images will be saved: ");
+				folderPath = kbd.nextLine();
+				dynamic_scraping Web = new dynamic_scraping(filePath, folderPath, task);
+				Web.scrapeTruliaImg();
+			}
 		}
 		else {
 			System.out.println("Task is not supported");
