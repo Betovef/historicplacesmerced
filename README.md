@@ -14,7 +14,7 @@
 
 ### Methods <a name="methods"></a>
 
-#### Image Acquisition 
+#### Image Acquisition <a name="image-acquisition"></a>
 
 ##### Description 
 
@@ -31,7 +31,7 @@
 
 ##### CSV Downloader
 
-#### Detecron2
+#### Detecron2 <a name="detectron2"></a>
 
 - In progress
 
