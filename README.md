@@ -12,9 +12,11 @@
 
 ### Introduction <a name="introduction"></a>
 
+- In Progress
+
 ### Methods <a name="methods"></a>
 
-#### Image Acquisition <a name="image-acquisition"></a>
+#### 1. Image Acquisition <a name="image-acquisition"></a>
 
 ##### Description 
 
@@ -31,7 +33,7 @@
 
 ##### CSV Downloader
 
-#### Detecron2 <a name="detectron2"></a>
+#### 2. Detecron2 <a name="detectron2"></a>
 
 - In progress
 
