@@ -2,7 +2,7 @@
 
 This project explores community-based research in the context of Digital Preservation. The aim of this repository is to acquire and investigate how the Historical Buildings in Merced have been preserved over time. This repository is heavily focused on the acquisition and processing of images using Automation, HTML parser libraries, and Convolutional Neural Networks. 
 
-<img src="imagesREADME/DataAcquisition.jpg" width="200"> <img src="imagesREADME/TestModelDemo2.png" width="200">
+<img src="imagesREADME/DataAcquisition.jpg" width="500"> <img src="imagesREADME/TestModelDemo2.png" width="500">
 
 ## Table of contents
 
@@ -29,7 +29,7 @@ It is important to keep track of the preservation of this buildings , however, o
 
 This program currently supports 3 functionalities: 1. Download and naming of images using URLs, 2. Dynamic scraping using Selenium Webdriver and Jsoup, 3. Google Maps Street View API (key is required). The idea is to automatize the acquisition of images (it can be used to acquire any other information from the web) for the data preservation and research of the Historical Places Merced.  The idea behind this project is automate the image acquisition of houses in the city of Merced and use it to extract and compare images from different dates using Convolutional Neural Networks. 
 
-<img src="C:\Users\Alberto\AppData\Roaming\Typora\typora-user-images\image-20200728135441736.png" alt="image-20200728135441736" style="zoom:50%;" />
+<img src="imagesREADME/DataSourcesDiagram.png" width="500">
 
 ##### Pre-requisites 
 
@@ -44,7 +44,7 @@ This program currently supports 3 functionalities: 1. Download and naming of ima
 
 The data processing of the projects include the workflow to organize and prepare datasets for training using the Detectron2 platform. The dataset was transformed in COCO format in order to be  registered and merged in the Detectron2 pretrained models. The data processing includes utilities such as resizing(deforming and without  deformation), naming, and visualization.
 
-<img src="C:\Users\Alberto\AppData\Roaming\Typora\typora-user-images\image-20200728143354808.png" alt="image-20200728143354808" style="zoom:150%;" />
+<img src="imagesREADME/DataProcessingDemo.png" width="700">
 
 ##### Pre-requisites
 
@@ -64,7 +64,7 @@ The Jupyter Notebook includes the workflow of registering, training, data extrac
 - Baseline[X101-FPN] with Mask R-CNN
 - 240 images for training and 24 for validation (images from Google maps and Zillow, validation images randomly selected)
 
-<img src="C:\Users\Alberto\AppData\Roaming\Typora\typora-user-images\image-20200728134518103.png" alt="image-20200728134518103" style="zoom:50%;" />![image-20200728142836826](C:\Users\Alberto\AppData\Roaming\Typora\typora-user-images\image-20200728142836826.png)
+<img src="imagesREADME/GetBoxesDemo.png" width="700"><img src="imagesREADME/GetMaskDemo.png" width="700">
 
 ##### Pre-requisites
 
@@ -72,7 +72,7 @@ The Jupyter Notebook includes the workflow of registering, training, data extrac
 - List of other libraries needed visit the Google Colab
 
 ### Results <a name="results"></a>
-![image-20200728134603758](C:\Users\Alberto\AppData\Roaming\Typora\typora-user-images\image-20200728134603758.png)
+<img src="imagesREADME/InstancesImplementationDemo.png" width="700">
 
 ### References <a name="references"></a>
 
