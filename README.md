@@ -2,7 +2,7 @@
 
 This project explores community-based research in the context of Digital Preservation. The aim of this repository is to acquire and investigate how the Historical Buildings in Merced have been preserved over time. This repository is heavily focused on the acquisition and processing of images using Automation, HTML parser libraries, and Convolutional Neural Networks. 
 
-<img src="C:\Users\Alberto\Desktop\REU\DataAcquisition.jpg" alt="DataAcquisition" style="zoom: 80%;" /><img src="C:\Users\Alberto\Desktop\REU\TestModelDemo2.png" alt="TestModelDemo2" style="zoom: 33%;" />
+<img src="imagesREADME/DataAcquisition.jpg" width='200><img src="imagesREADME/TestModelDemo2.png" width='200>
 
 ## Table of contents
 
